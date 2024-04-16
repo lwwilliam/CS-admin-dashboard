@@ -8,6 +8,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'poppins': ['var(--font-poppins)'],
+      },
+      backgroundClip: {
+      'text': 'text',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -15,6 +21,13 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  variants: {
+  extend: {
+    backgroundClip: ['responsive'],
+  },
+  },
+  plugins: [
+  require('@tailwindcss/typography'),
+  ],
 };
 export default config;
