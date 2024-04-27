@@ -14,6 +14,7 @@ function clubDashboard({})
 {
   const [members, setMembers] = useState<Record<string, any>>({});
   const [clubData, setclubData] = useState<Record<string, any>>({});
+  const [events, setEvents] = useState<Record<string, any>>({});
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/api/admin/getClubData`, {
@@ -34,6 +35,21 @@ function clubDashboard({})
       console.error('Error fetching data:', error);
     });
   }, []);
+
+  useEffect(() => {
+    if (clubData.Name) {  
+      fetch(`${BACKEND_URL}/api/getEvents?ClubName=Sunway University Student Council (SUSC)`, {
+        method: 'GET'
+      })
+      .then(response => response.json())
+      .then(data => {
+        setEvents(data.message);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+    }}
+  , [clubData]);
 
   let club_name: string = clubData.Name;
   let member_count: string = "0";
@@ -69,7 +85,16 @@ function clubDashboard({})
             <div className=" bg-white rounded-md h-[15rem]">
               <div className="text-lg font-bold font-poppins text-center m-3">Event Performance</div>
               <div className="flex flex-col justify-center items-center">
-                <EventStatsTile date={new Date("2019-02-3")} title="SCSC Monthly Meetup" participant_count={69} />
+                {
+                  Object.keys(events).map((key) => {
+                    let participant_count = 0;
+                    if (events[key].JoinedUsers && Array.isArray(events[key].JoinedUsers))
+                      participant_count = events[key].JoinedUsers.length;
+                    return (
+                      <EventStatsTile key={key} date={events[key].startDate} title={events[key].Title} participant_count={participant_count} />
+                    );
+                  })
+                }
               </div>
             </div>
           </div>

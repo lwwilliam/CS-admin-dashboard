@@ -5,15 +5,16 @@ import styles from './EventStatsTile.module.css';
 import person_icon from '@icons/person.png';
 
 interface EventStatsTileProps {
-  date: Date;
+  date: string;
   title: String;
   participant_count: Number;
 }
 
 function EventStatsTile({date, title, participant_count}: EventStatsTileProps)
 {
-  let month = date.toLocaleString('default', { month: 'short' });
-  let day = date.getDate();
+  const eventDate = new Date(date);
+  const month = eventDate.toLocaleString('default', { month: 'short', timeZone: 'UTC' });
+  const day = eventDate.getUTCDate();
 
   return (
     <>

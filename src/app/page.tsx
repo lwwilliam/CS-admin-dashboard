@@ -13,7 +13,8 @@ export default function Home() {
 	const [password, setPassword] = useState("")
 	const [wrongPassword, setWrongPassword] = useState(false)
 	
-	function signInFunction() {
+	function signInFunction(event : React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 		const data = { "clubUsername": clubUsername, "password": password };
 		fetch(`${BACKEND_URL}/api/admin/clubsLogin`, {
 			method: 'POST', 
@@ -50,26 +51,31 @@ export default function Home() {
             width={70}
             height={70}
           />
-          <div className="w-[80%] h-full pb-5">
-            <input className="w-full h-12 rounded-md bg-neutral-200 shadow-inner pl-5 font-poppins font-medium"
-            placeholder="Username"
-            onChange={e => setclubUsername(e.target.value)}/>
-          </div>
-          <div className="w-[80%] h-full pb-5 relative">
-            <input className="w-full h-12 rounded-md bg-neutral-200 shadow-inner pl-5 font-poppins font-medium"
-            placeholder="Password"
-            type="password"
-            onChange={e => setPassword(e.target.value)}
-            />
-            <div className={`text-red-500 absolute bottom-[0.3px] ${wrongPassword ? '' : 'hidden'}`}>Incorrect Password</div>
-          </div>
-          <div className="w-[25%] h-14 pb-3">
-            <button className="w-full h-full rounded-3xl bg-lightmode-red font-poppins font-medium transform transition-all duration-200 hover:scale-105 cursor-pointer"
-              onClick={signInFunction}
-            >
-              Sign In
-            </button>
-          </div>
+          <form onSubmit={signInFunction} className='flex-col flex items-center w-full'>
+            <div className="w-[80%] h-full pb-5">
+              <input className="w-full h-12 rounded-md bg-neutral-200 shadow-inner pl-5 font-poppins font-medium"
+                placeholder="Username"
+                onChange={e => setclubUsername(e.target.value)}
+                name='username'
+                autoComplete="username"
+              />
+            </div>
+            <div className="w-[80%] h-full pb-5 relative">
+              <input className="w-full h-12 rounded-md bg-neutral-200 shadow-inner pl-5 font-poppins font-medium"
+                placeholder="Password"
+                type="password"
+                onChange={e => setPassword(e.target.value)}
+                name='password'
+                autoComplete="current-password"
+              />
+              <div className={`text-red-500 absolute bottom-[0.3px] ${wrongPassword ? '' : 'hidden'}`}>Incorrect Password</div>
+            </div>
+            <div className="w-[25%] h-14 pb-3">
+              <button type="submit" className="w-full h-full rounded-3xl bg-lightmode-red font-poppins font-medium transform transition-all duration-200 hover:scale-105 cursor-pointer">
+                Sign In
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </main>
