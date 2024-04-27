@@ -41,7 +41,7 @@ function clubDashboard({})
 
   useEffect(() => {
     if (clubData.Name) {  
-      fetch(`${BACKEND_URL}/api/getEvents?ClubName=Sunway University Student Council (SUSC)`, {
+      fetch(`${BACKEND_URL}/api/getEvents?ClubName=${clubData.Name}`, {
         method: 'GET'
       })
       .then(response => response.json())
