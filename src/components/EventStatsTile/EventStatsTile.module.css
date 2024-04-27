@@ -1,0 +1,144 @@
+
+
+
+
+@keyframes slideOutBar {
+  0% {
+    transform: translateX(0);
+    opacity: 100;
+  }
+  100% {
+    transform: translateX(-3rem);
+    opacity: 0;
+    display: hidden;
+  }
+}
+
+@keyframes fadeOutDate {
+  0% {
+    opacity: 100;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideRightTitle {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0rem);
+    opacity: 100;
+  }
+}
+
+@keyframes slideInBar {
+  0% {
+    transform: translateX(3rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0rem);
+    opacity: 100;
+  }
+}
+
+@keyframes fadeInCount {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
+.group:hover .slideOutBar {
+  animation: slideOutBar 0.1s ease-in 1 forwards;
+}
+
+.group:hover .slideRightTitle {
+  animation: slideRightTitle 0.2s ease-in 1 forwards;
+}
+
+.group:hover .fadeOutDate {
+  animation: fadeOutDate 0.1s ease-in 1 forwards;
+}
+
+.group:hover .slideInBar {
+  animation: slideInBar 0.2s ease-in 1 forwards;
+}
+
+.group:hover .fadeInCount {
+  animation: fadeInCount 0.1s ease-in 1 forwards;
+}
+
+@keyframes slideInBarReverse {
+  0% {
+    transform: translateX(0rem);
+    opacity: 100;
+  }
+  100% {
+    transform: translateX(3rem);
+    opacity: 0;
+  }
+}
+
+@keyframes slideOutBarReverse {
+  0% {
+    transform: translateX(-3rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 100;
+  }
+}
+
+@keyframes fadeInDate {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
+@keyframes slideLeftTitle {
+  0% {
+    transform: translateX(-3rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOutCount {
+  0% {
+    opacity: 100;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.group:not(:hover) .slideInBar {
+  animation: slideInBarReverse 0.5s ease-out 1 forwards;
+}
+
+.group:not(:hover) .slideOutBar {
+  animation: slideOutBarReverse 0.5s ease-out 1 forwards;
+}
+
+.group:not(:hover) .fadeInDate {
+  animation: fadeInDate 1s ease-out 1 forwards;
+}
+
+.group:not(:hover) .slideLeftTitle {
+  animation: slideLeftTitle 2s ease-out 1 forwards;
+}
+
+.group:not(:hover) .fadeOutCount {
+  animation: fadeOutCount 0.5s ease-out 1 forwards;
+}
