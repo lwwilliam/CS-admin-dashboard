@@ -35,7 +35,7 @@ function memeberList({members}: MemberListProps) {
   return (
     <>
     <div className='flex flex-col w-[60%]'>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center pb-5'>
         <div className='text-3xl text-black font-bold font-poppins text-wrap py-5'>All Members</div>
         <div className='relative'>
           <input type="text" id="myInput" placeholder="Search" title="Type in a name" 
