@@ -10,7 +10,7 @@ import { getCookie } from 'cookies-next';
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 const token = getCookie('token');
 
-function clubDashboard({})
+function ClubDashboard({})
 {
   const [members, setMembers] = useState<Record<string, any>>({});
   const [clubData, setclubData] = useState<Record<string, any>>({});
@@ -110,4 +110,4 @@ function clubDashboard({})
   )
 }
 
-export default clubDashboard;
+export default ClubDashboard;
