@@ -11,7 +11,7 @@ const token = getCookie('token');
 //   info: Record<string, any>;
 // }
 
-function memeberList() {
+function MemberRequest() {
   const [filteredInfo, setFilteredInfo] = useState<Record<string, any>>({});
   const [info, setInfo] = useState<Record<string, any>>({});
 
@@ -141,4 +141,4 @@ function memeberList() {
   );
 }
 
-export default memeberList;
+export default MemberRequest;

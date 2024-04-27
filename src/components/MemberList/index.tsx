@@ -7,7 +7,7 @@ interface MemberListProps {
   members: Record<string, any>;
 }
 
-function memeberList({members}: MemberListProps) {
+function MemberList({members}: MemberListProps) {
   const [filteredInfo, setFilteredInfo] = useState<Record<string, any>>({});
 
   useEffect(() => {
@@ -73,4 +73,4 @@ function memeberList({members}: MemberListProps) {
   );
 }
 
-export default memeberList;
+export default MemberList;
