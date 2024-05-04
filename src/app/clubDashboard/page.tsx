@@ -4,8 +4,11 @@ import React from "react";
 import EventStatsTile from "@/components/EventStatsTile";
 import MemberList from "@/components/MemberList";
 import MemberRequest from "@/components/MemberRequest";
+import StatsTile from "@/components/StatsTile";
 import { useState, useEffect } from 'react';
 import { getCookie } from 'cookies-next';
+import ClubFundsTile from "@/components/ClubFundsTile";
+import ClubFundsLogsTile from "@/components/ClubFundsLogsTile";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 const token = getCookie('token');
@@ -61,51 +64,49 @@ function ClubDashboard({})
   return (
     <>
     <div className="flex justify-center items-center">
-     <div className="flex flex-col h-full w-[95%] p-6">
-      <div className="flex text-3xl text-black font-bold font-poppins text-wrap py-5">{club_name}</div>
-      <div className="flex flex-col w-full">
-        <div className="text-2xl text-black font-medium font-poppins pb-5">Club Statistics</div>
-        <div className="flex flex-col justify-center items-center">
-          <div className="flex flex-row justify-between items-center w-full pb-5">
-            <div className="flex flex-col bg-white rounded-md h-24 w-28 justify-center items-center group">
-              <div className="text-4xl font-bold font-poppins bg-clip-text text-transparent bg-gradient-to-br from-[#FF0000] to-[#FF00D6] transform transition-all duration-100 group-hover:scale-125 group-hover:translate-y-2 cursor-pointer">{member_count}</div>
-              <div className="w-11/12 text-sm font-bold font-poppins text-center transition-all duration-100 group-hover:scale-75 group-hover:translate-y-2 cursor-pointer">Total Members</div>
+      <div className="flex flex-col h-full w-[95%] p-6">
+        <div className="flex text-3xl text-black font-bold font-poppins text-wrap py-5">{club_name}</div>
+        <div className="flex flex-col w-full">
+          <div className="text-3xl text-black font-bold font-poppins text-wrap py-5">Club Performance</div>
+          <div className="flex flex-row justify-between items-center pb-10">
+            <div className="flex flex-col justify-center items-center w-full">
+              <StatsTile stat={member_count} desc={"Total Members"}/>
+              <StatsTile stat={percent_incr + "%"} desc={"Increase over " + last_month}/>
             </div>
-            <div className="flex flex-col bg-white rounded-md h-24 w-28 justify-center items-center group">
-              <div className="text-4xl font-bold font-poppins bg-clip-text text-transparent bg-gradient-to-br from-[#FF0000] to-[#FF00D6] transform transition-all duration-100 group-hover:scale-125 group-hover:translate-y-2 cursor-pointer">{percent_incr}%</div>
-              <div className="w-11/12 text-sm font-bold font-poppins text-center transition-all duration-100 group-hover:scale-75 group-hover:translate-y-2 cursor-pointer">Increase over {last_month}</div>
+            <div className="flex flex-col pr-10 w-full">
+              <div className=" bg-white rounded-md  h-[25rem]">
+                <div className="text-lg font-bold font-poppins text-center m-3">Member Fluctuation</div>
+              </div>
             </div>
-          </div>
-          {/* <div className="flex flex-col pb-5 w-full">
-            <div className=" bg-white rounded-md  h-[15rem]">
-              <div className="text-lg font-bold font-poppins text-center m-3">Member Fluctuation</div>
-            </div>
-          </div> */}
-          <div className="flex flex-col pb-5 w-full">
-            <div className=" bg-white rounded-md h-[15rem]">
-              <div className="text-lg font-bold font-poppins text-center m-3">Event Performance</div>
-              <div className="flex flex-col justify-center items-center">
-                {
-                  Object.keys(events).map((key) => {
-                    let participant_count = 0;
-                    if (events[key].JoinedUsers && Array.isArray(events[key].JoinedUsers))
-                      participant_count = events[key].JoinedUsers.length;
-                    return (
-                      <EventStatsTile key={key} date={events[key].startDate} title={events[key].Title} participant_count={participant_count} />
-                    );
-                  })
-                }
+            <div className="flex flex-col w-full">
+              <div className=" bg-white rounded-md h-[25rem]">
+                <div className="text-lg font-bold font-poppins text-center m-3">Event Performance</div>
+                <div className="flex flex-col justify-center items-center">
+                  {
+                    Object.keys(events).map((key) => {
+                      let participant_count = 0;
+                      if (events[key].JoinedUsers && Array.isArray(events[key].JoinedUsers))
+                        participant_count = events[key].JoinedUsers.length;
+                      return (
+                        <EventStatsTile key={key} date={events[key].startDate} title={events[key].Title} participant_count={participant_count} />
+                      );
+                    })
+                  }
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div className="flex justify-between pb-10">
+          <MemberList members={members}/>
+          <MemberRequest/>
+        </div>
+        <div className="flex justify-between pb-10">
+            <ClubFundsTile />
+            <ClubFundsLogsTile />
+        </div>
       </div>
-      <div className="flex justify-between">
-        <MemberList members={members}/>
-        <MemberRequest/>
-      </div>
-     </div>
-     </div>
+    </div>
     </>
   )
 }

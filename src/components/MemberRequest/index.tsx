@@ -94,7 +94,7 @@ function MemberRequest() {
   return (
   <>
   <div className='flex flex-col w-[38%]'>
-    <div className='flex justify-between items-center'>
+    <div className='flex justify-between items-center pb-5'>
     <div className='text-3xl text-black font-bold font-poppins text-wrap py-5'>Requests</div>
     <div className='relative'>
       <input type="text" id="myInput" placeholder="Search" title="Type in a name" 
@@ -114,26 +114,27 @@ function MemberRequest() {
       <div className='text-center col-span-1'>Actions</div>
     </div>
     {
+      filteredInfo && typeof filteredInfo === 'object' ?
       Object.keys(filteredInfo).map((key) => {
-      return (
-        <div key={key} className='grid grid-cols-6 gap-4 px-4 font-poppins pb-3'>
-          <div className='text-center col-span-2'>{filteredInfo[key].Name}</div>
-          <div className='text-center overflow-hidden col-span-3'>{filteredInfo[key].Email}</div>
-          <div className='col-span-1 flex items-center justify-center'>
-            <Image src="/icons/accept.png" alt="accept"
-              width={23} height={23}
-              className="cursor-pointer mr-1"
-              onClick={() => acceptRequest(filteredInfo[key]._id)}
-            />
-            <Image src="/icons/reject.png" alt="accept"
-              width={23} height={23}
-              className="cursor-pointer ml-1"
-              onClick={() => rejectRequest(filteredInfo[key]._id)}
-            />
+        return (
+          <div key={key} className='grid grid-cols-6 gap-4 px-4 font-poppins pb-3'>
+            <div className='text-center col-span-2'>{filteredInfo[key].Name}</div>
+            <div className='text-center overflow-hidden col-span-3'>{filteredInfo[key].Email}</div>
+            <div className='col-span-1 flex items-center justify-center'>
+              <Image src="/icons/accept.png" alt="accept"
+                width={23} height={23}
+                className="cursor-pointer mr-1"
+                onClick={() => acceptRequest(filteredInfo[key]._id)}
+              />
+              <Image src="/icons/reject.png" alt="accept"
+                width={23} height={23}
+                className="cursor-pointer ml-1"
+                onClick={() => rejectRequest(filteredInfo[key]._id)}
+              />
+            </div>
           </div>
-        </div>
-      );
-      })
+          );
+      }) : null
     }
     </div>
   </div>
