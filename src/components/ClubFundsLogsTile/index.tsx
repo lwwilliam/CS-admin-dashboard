@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { getCookie } from 'cookies-next';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 const token = getCookie('token');
 
-function ClubFundsLogsTile() {
+interface ClubFundsLogsTileProps {
+  clubFunds: string;
+  updateFunds: any;
+  fundAmount: number;
+}
+
+function ClubFundsLogsTile({ clubFunds, updateFunds, fundAmount }: ClubFundsLogsTileProps) {
   const [allFunds, setAllFunds] = useState<Record<string, any>>({});
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
@@ -19,14 +25,22 @@ function ClubFundsLogsTile() {
     .then(response => response.json())
     .then(data => {
       setAllFunds(data.message);
-      console.log(data.message);
     })
     .catch((error) => {
       console.error('Error fetching data:', error);
     });
-  }, []);
+  }, [clubFunds]);
+
+  function handleFundsChange(num: number | string) {
+    const amountToAdd = typeof num === 'string' ? parseFloat(num) : num;
+  
+    fundAmount += amountToAdd;
+    const updatedFunds = fundAmount.toString();
+    updateFunds(updatedFunds);
+  }
 
   function deallocate(id: number) {
+    const index = Object.values(allFunds).findIndex(fund => fund._id === id);
     fetch(`${BACKEND_URL}/api/funds/deallocateFunds`, {
       method: 'DELETE',
       headers: {
@@ -40,13 +54,14 @@ function ClubFundsLogsTile() {
       // Remove deallocated funds from allFunds state
       setAllFunds(prevAllFunds => {
         return Object.keys(prevAllFunds)
-          .filter((key) => prevAllFunds.hasOwnProperty(key)) // Filter out keys that may not exist
-          .filter(key => prevAllFunds[key]._id !== id)
-          .reduce((obj, key) => {
-            obj[key] = prevAllFunds[key];
-            return obj;
-          }, {} as Record<string, any>); // Type assertion here
+        .filter((key) => prevAllFunds.hasOwnProperty(key)) // Filter out keys that may not exist
+        .filter(key => prevAllFunds[key]._id !== id)
+        .reduce((obj, key) => {
+          obj[key] = prevAllFunds[key];
+          return obj;
+        }, {} as Record<string, any>); // Type assertion here
       });
+      handleFundsChange(allFunds[index].Amount);
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -58,7 +73,7 @@ function ClubFundsLogsTile() {
       selectedItems.forEach((id) => {
         deallocate(id);
       });
-      window.location.reload();
+      setSelectedItems([]);
     }
 
   };

@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { getCookie } from 'cookies-next';
+import { time } from "console";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 const token = getCookie('token');
 
 interface ClubFundsTileProps {
   fundAmount: number;
+  updateFunds: any;
 }
 
 type ModalType = {
@@ -47,9 +49,6 @@ function EditBalanceModal({open, onClose, balance, setBalance} : EditBalanceModa
       body: JSON.stringify({ "Amount": input })
     })
     .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
     .catch((error) => {
       console.error('Error:', error);
     });
@@ -115,17 +114,15 @@ function AllocFundsModal ({open, onClose, balance, setBalance} : EditBalanceModa
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      setBalance(balance - Number(allocatedFunds))
     })
     .catch((error) => {
       console.error('Error:', error);
     });
 
     setShowError(false)
-    setBalance(balance - Number(allocatedFunds))
     setAllocatedFunds("")
     setPurpose("")
-    window.location.reload();
     onClose()
   }
 
@@ -166,7 +163,7 @@ function AllocFundsModal ({open, onClose, balance, setBalance} : EditBalanceModa
   );
 } 
 
-function ClubFundsTile({fundAmount}: ClubFundsTileProps) {
+function ClubFundsTile({fundAmount, updateFunds}: ClubFundsTileProps) {
   const [funds, setFunds] = useState<number>(fundAmount);
   const [showEditBalanceModal, setShowEditBalanceModal] = useState<boolean>(false);
   const [showAllocFundsModal, setShowAllocFundsModal] = useState<boolean>(false);
@@ -174,6 +171,10 @@ function ClubFundsTile({fundAmount}: ClubFundsTileProps) {
   useEffect(() => {
     setFunds(fundAmount)
   }, [fundAmount])
+
+  useEffect(() => {
+    updateFunds(funds)
+  }, [funds])
 
   return (
     <>

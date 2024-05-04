@@ -65,6 +65,10 @@ function ClubDashboard({})
   let percent_incr: string = "1";
   let last_month: string = "January";
 
+  const handleFundsUpdate = (updatedFunds: string) => {
+    setClubFunds(updatedFunds);
+  };
+
   return (
     <>
     <div className="flex justify-center items-center">
@@ -106,8 +110,8 @@ function ClubDashboard({})
           <MemberRequest/>
         </div>
         <div className="flex justify-between pb-10">
-            <ClubFundsTile fundAmount={parseInt(clubFunds)}/>
-            <ClubFundsLogsTile />
+            <ClubFundsTile fundAmount={parseInt(clubFunds)} updateFunds={handleFundsUpdate}/>
+            <ClubFundsLogsTile clubFunds={clubFunds} updateFunds={handleFundsUpdate} fundAmount={parseInt(clubFunds)}/>
         </div>
       </div>
     </div>
