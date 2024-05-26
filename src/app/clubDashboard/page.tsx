@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 import { getCookie } from 'cookies-next';
 import ClubFundsTile from "@/components/ClubFundsTile";
 import ClubFundsLogsTile from "@/components/ClubFundsLogsTile";
+import AnnouncementsTile from "@/components/AnnouncementsTile";
+import EventsTile from "@/components/EventsTile";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 const token = getCookie('token');
@@ -53,6 +55,24 @@ function ClubDashboard({})
       });
     }}
   , [clubData]);
+
+  
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/api/getAnnouncements?ClubName=${clubData.Name}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    })
+    .catch((error) => {
+      console.error('Error:', error)
+    })
+  }, [clubData])
 
   let club_name: string = clubData.Name;
   let member_count: string = "0";
@@ -102,8 +122,12 @@ function ClubDashboard({})
           <MemberRequest/>
         </div>
         <div className="flex justify-between pb-10">
-            <ClubFundsTile />
-            <ClubFundsLogsTile />
+          <ClubFundsTile />
+          <ClubFundsLogsTile />
+        </div>
+        <div className="flex justify-between pb-10">
+          <AnnouncementsTile />
+          <EventsTile />
         </div>
       </div>
     </div>
