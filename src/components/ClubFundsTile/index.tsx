@@ -2,27 +2,14 @@ import { use, useEffect, useState } from "react";
 import { getCookie } from 'cookies-next';
 import { time } from "console";
 
+import Modal from "@/components/Modal";
+
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 const token = getCookie('token');
 
 interface ClubFundsTileProps {
   fundAmount: number;
   updateFunds: any;
-}
-
-type ModalType = {
-  open: boolean
-  children: React.ReactNode;
-}
-
-function Modal({open, children}: ModalType) {
-  return (
-    <div className={`fixed inset-0 flex justify-center items-center transition-colors ${open ? "visible bg-black/50": "invisible"}`}>
-      <div className={`transition-opacity ${open ? "opacity-100": "opacity-0"}`}>
-        {children}
-      </div>
-    </div>
-  )
 }
 
 type EditBalanceModalType = {
