@@ -1,5 +1,14 @@
-import { useState } from "react";
-import Modal from "@/components/Modal";
+import { use, useEffect, useState } from "react";
+import { getCookie } from 'cookies-next';
+import { time } from "console";
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
+const token = getCookie('token');
+
+interface ClubFundsTileProps {
+  fundAmount: number;
+  updateFunds: any;
+}
 
 type EditBalanceModalProps = {
   open: boolean
@@ -15,6 +24,20 @@ function EditBalanceModal({open, onClose, balance, setBalance} : EditBalanceModa
 
   function onConfirm() {
     setBalance(Number(input))
+
+    fetch(`${BACKEND_URL}/api/funds/updateFunds`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ "Amount": input })
+    })
+    .then(response => response.json())
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
     onClose()
   }
 
@@ -49,18 +72,40 @@ function AllocFundsModal ({open, onClose, balance, setBalance} : EditBalanceModa
   const [allocatedFunds, setAllocatedFunds] = useState<string>("");
   const [purpose, setPurpose] = useState<string>("");
   const [showError, setShowError] = useState<boolean>(false);
-
-  let error_msg: string = "Error, Insufficient Funds";
+  const[error_msg, setErrorMsg] = useState<string>("");
 
   function onConfirm() {
-
-    if (balance - Number(allocatedFunds) < 0) {
+    
+    if (allocatedFunds === "" || purpose === "") {
+      setErrorMsg("Error, Please fill in all fields")
       setShowError(true)
       return
     }
 
+    if (balance - Number(allocatedFunds) < 0) {
+      setErrorMsg("Error, Insufficient Funds")
+      setShowError(true)
+      return
+    }
+
+    let data = { "Purpose": purpose, "Amount": allocatedFunds };
+    fetch(`${BACKEND_URL}/api/funds/allocFunds`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      setBalance(balance - Number(allocatedFunds))
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
     setShowError(false)
-    setBalance(balance - Number(allocatedFunds))
     setAllocatedFunds("")
     setPurpose("")
     onClose()
@@ -103,11 +148,18 @@ function AllocFundsModal ({open, onClose, balance, setBalance} : EditBalanceModa
   );
 } 
 
-function ClubFundsTile() {
-
-  const [funds, setFunds] = useState<number>(2139);
+function ClubFundsTile({fundAmount, updateFunds}: ClubFundsTileProps) {
+  const [funds, setFunds] = useState<number>(fundAmount);
   const [showEditBalanceModal, setShowEditBalanceModal] = useState<boolean>(false);
   const [showAllocFundsModal, setShowAllocFundsModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    setFunds(fundAmount)
+  }, [fundAmount])
+
+  useEffect(() => {
+    updateFunds(funds)
+  }, [funds])
 
   return (
     <>

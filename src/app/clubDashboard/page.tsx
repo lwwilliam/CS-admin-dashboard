@@ -20,6 +20,7 @@ function ClubDashboard({})
   const [members, setMembers] = useState<Record<string, any>>({});
   const [clubData, setclubData] = useState<Record<string, any>>({});
   const [events, setEvents] = useState<Record<string, any>>({});
+  const [clubFunds, setClubFunds] = useState("0");
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/api/admin/getClubData`, {
@@ -34,6 +35,9 @@ function ClubDashboard({})
       setclubData(data.message);
       if (data.message.Members && Array.isArray(data.message.Members)) {
         setMembers(data.message.Members);
+      }
+      if (data.message.TotalFunds) {
+        setClubFunds(data.message.TotalFunds);
       }
     })
     .catch((error) => {
@@ -81,6 +85,10 @@ function ClubDashboard({})
   let percent_incr: string = "1";
   let last_month: string = "January";
 
+  const handleFundsUpdate = (updatedFunds: string) => {
+    setClubFunds(updatedFunds);
+  };
+
   return (
     <>
     <div className="flex justify-center items-center">
@@ -122,12 +130,8 @@ function ClubDashboard({})
           <MemberRequest/>
         </div>
         <div className="flex justify-between pb-10">
-          <ClubFundsTile />
-          <ClubFundsLogsTile />
-        </div>
-        <div className="flex justify-between pb-10">
-          <AnnouncementsTile/>
-          <EventsTile />
+            <ClubFundsTile fundAmount={parseInt(clubFunds)} updateFunds={handleFundsUpdate}/>
+            <ClubFundsLogsTile clubFunds={clubFunds} updateFunds={handleFundsUpdate} fundAmount={parseInt(clubFunds)}/>
         </div>
       </div>
     </div>
