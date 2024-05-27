@@ -126,7 +126,7 @@ function ClubDashboard({})
           <ClubFundsLogsTile />
         </div>
         <div className="flex justify-between pb-10">
-          <AnnouncementsTile />
+          <AnnouncementsTile/>
           <EventsTile />
         </div>
       </div>
