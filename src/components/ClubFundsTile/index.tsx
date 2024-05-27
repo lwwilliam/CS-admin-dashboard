@@ -2,6 +2,8 @@ import { use, useEffect, useState } from "react";
 import { getCookie } from 'cookies-next';
 import { time } from "console";
 
+import Modal from "@/components/Modal";
+
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 const token = getCookie('token');
 
@@ -67,7 +69,7 @@ function EditBalanceModal({open, onClose, balance, setBalance} : EditBalanceModa
   );
 }
 
-function AllocFundsModal ({open, onClose, balance, setBalance} : EditBalanceModalType) {
+function AllocFundsModal ({open, onClose, balance, setBalance} : EditBalanceModalProps) {
 
   const [allocatedFunds, setAllocatedFunds] = useState<string>("");
   const [purpose, setPurpose] = useState<string>("");

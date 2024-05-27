@@ -130,8 +130,12 @@ function ClubDashboard({})
           <MemberRequest/>
         </div>
         <div className="flex justify-between pb-10">
-            <ClubFundsTile fundAmount={parseInt(clubFunds)} updateFunds={handleFundsUpdate}/>
-            <ClubFundsLogsTile clubFunds={clubFunds} updateFunds={handleFundsUpdate} fundAmount={parseInt(clubFunds)}/>
+          <ClubFundsTile fundAmount={parseInt(clubFunds)} updateFunds={handleFundsUpdate}/>
+          <ClubFundsLogsTile clubFunds={clubFunds} updateFunds={handleFundsUpdate} fundAmount={parseInt(clubFunds)}/>
+        </div>
+        <div className="flex justify-between pb-10">
+          <AnnouncementsTile />
+          <EventsTile />
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ function AnnouncementModal({open, onClose} : AnnouncementModalProps) {
       <Modal open={open}>
 
         <div>
-          
+          Hello
         </div>
 
       </Modal>
