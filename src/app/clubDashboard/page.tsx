@@ -91,7 +91,7 @@ function ClubDashboard({})
 
   return (
     <>
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center overflow-x-hidden">
       <div className="flex flex-col h-full w-[95%] p-6">
         <div className="flex text-3xl text-black font-bold font-poppins text-wrap py-5">{club_name}</div>
         <div className="flex flex-col w-full">
@@ -125,17 +125,17 @@ function ClubDashboard({})
             </div>
           </div>
         </div>
-        <div className="flex justify-between pb-10">
+        <div className="flex flex-col md:flex-row justify-center items-center md:justify-between pb-10 w-full">
           <MemberList members={members}/>
           <MemberRequest/>
         </div>
-        <div className="flex justify-between pb-10">
+        <div className="flex flex-col md:flex-row justify-center items-center md:justify-between pb-10 w-full">
           <ClubFundsTile fundAmount={parseInt(clubFunds)} updateFunds={handleFundsUpdate}/>
           <ClubFundsLogsTile clubFunds={clubFunds} updateFunds={handleFundsUpdate} fundAmount={parseInt(clubFunds)}/>
         </div>
-        <div className="flex justify-between pb-10">
+        <div className="flex flex-col md:flex-row justify-center items-center md:justify-between pb-10 w-full">
           <AnnouncementsTile clubName={club_name}/>
-          <EventsTile />
+          <EventsTile clubName={club_name}/>
         </div>
       </div>
     </div>

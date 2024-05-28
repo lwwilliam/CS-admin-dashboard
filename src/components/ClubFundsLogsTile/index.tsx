@@ -116,6 +116,7 @@ function ClubFundsLogsTile({ clubFunds, updateFunds, fundAmount }: ClubFundsLogs
                       name={`select-${key}`}
                       value={`select-${key}`}
                       onChange={(event) => handleCheckboxChange(event, allFunds[key]._id)}
+                      className='accent-red-500 h-5 w-5 rounded-lg'
                     />
                   </div>
                 </div>

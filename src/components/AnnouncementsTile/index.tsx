@@ -33,12 +33,8 @@ type Announcement = {
 
 function AnnouncementModal({open, toEdit, onClose, onAPICall} : AnnouncementModalProps) {
 
-  console.log(toEdit)
-
   const [title, setTitle] = useState<string>(toEdit.title);
   const [content, setContent] = useState<string>(toEdit.content);
-  const [initialAnnouncementState, setInitialAnnouncementState] = useState<Announcement>(toEdit);
-
 
   const addAnnouncement = () => {
 
@@ -70,10 +66,12 @@ function AnnouncementModal({open, toEdit, onClose, onAPICall} : AnnouncementModa
 
   const onConfirm = () => {
 
-    if (initialAnnouncementState.title === "" && initialAnnouncementState.content === "" && initialAnnouncementState.date === "") {
+    if (toEdit.title === "" && toEdit.content === "" && toEdit.date === "") {
+      console.log("New announcement, call add endpoint")
       addAnnouncement()
     }
     else {
+      console.log("Edit announcement, call edit endpoint")
       editAnnouncement()
     }
 
@@ -89,17 +87,17 @@ function AnnouncementModal({open, toEdit, onClose, onAPICall} : AnnouncementModa
     <>
       <Modal open={open}>
 
-        <div className="bg-white rounded-lg h-[50rem] w-[50rem] flex flex-col justify-center items-center">
+        <div className="bg-white rounded-lg h-[30rem] w-[25rem] md:h-[50rem] md:w-[50rem] flex flex-col justify-center items-center">
 
-          <div className="text-3xl font-medium font-poppins text-center mb-10">New Announcement</div>
+          <div className="text-xl md:text-3xl font-medium font-poppins text-center mb-3 md:mb-10">New Announcement</div>
           <input type="text" value={title} onChange={(e) => {setTitle(e.target.value)}}
                 placeholder="Title" title="Title" 
                 className='bg-[#E3E1E1] text-black md:pl-4 pl-4 md:pr-2 md:py-4 py-2 md:text-xl
-                text-xl font-poppins font-medium rounded-xl shadow-lg h-20 w-[40rem] border-[#E3E1E1] mb-10'/>
+                text-xl font-poppins font-medium rounded-xl shadow-lg w-[20rem] md:h-20 md:w-[40rem] border-[#E3E1E1] mb-5 md:mb-10'/>
           <textarea value={content} onChange={(e) => {setContent(e.target.value)}}
                 placeholder="Content" title="Content" 
                 className='bg-[#E3E1E1] text-black md:pl-4 pl-4 md:pr-2 md:py-4 py-2 md:text-xl
-                text-xl font-poppins font-medium rounded-xl shadow-lg h-[20rem] w-[40rem] border-[#E3E1E1] mb-10'/>
+                text-xl font-poppins font-medium rounded-xl shadow-lg h-[15rem] w-[20rem] md:h-[20rem] md:w-[40rem] border-[#E3E1E1] mb-5 md:mb-10'/>
           <div className="flex flex-row justify-between items-center whitespace-normal">
             <button onClick={onConfirm}
                   className="flex bg-[#FF5E5E] rounded-lg h-12 w-28 text-xl font-medium
@@ -125,7 +123,7 @@ function Announcment({date, title, onClick}: AnnouncementEntryProps) {
       onClick={onClick}>
         <div className='text-center col-span-1 group-hover:drop-shadow-[0_1.2px_1.2px_rgba(255,0,0,1)]
         transition ease-in-out group-hover:scale-105'>
-          {date}
+          {new Date(date).toLocaleDateString(undefined, {day: '2-digit', month: 'short', year: 'numeric'})}
         </div>
         <div className='text-center col-span-2 group-hover:drop-shadow-[0_1.2px_1.2px_rgba(255,0,0,1)]
         transition ease-in-out group-hover:scale-105'>
@@ -183,18 +181,18 @@ function AnnouncementsTile({clubName}: AnnouncementTileProps) {
 
   return (
     <>
-      <div className='flex flex-col'>
-        <div className="flex flex-row justify-between pb-8">
-          <div className='flex text-3xl text-black font-bold font-poppins text-wrap items-center'>Announcements</div>
+      <div className='flex flex-col pb-5 md:pb-0'>
+        <div className="flex flex-col md:flex-row justify-center md:justify-between pb-8">
+          <div className='flex text-xl md:text-3xl text-black font-bold font-poppins text-wrap items-center pb-5 md:pb-0'>Announcements</div>
           <button onClick={() => {
             setCurrentAnnouncement(emptyAnnouncement);
             setModalState(true);
           }}
-            className="flex bg-[#e6dcd5] rounded-lg h-12 w-[15rem] text-xl font-medium
+            className="flex bg-[#e6dcd5] rounded-lg h-12 md:w-[15rem] text-xl font-medium
                       text-center justify-center items-center transition-all duration-100
                       hover:scale-105 hover:-translate-y-2 hover:shadow-md cursor-pointer">New Announcement</button>
         </div>
-        <div className="flex flex-col bg-white rounded-lg p-8 h-[25rem] md:w-[15rem] lg:w-[20rem] xl:w-[40rem] items-center">
+        <div className="flex flex-col bg-white rounded-lg p-8 h-[37rem] md:h-[25rem] md:w-[15rem] lg:w-[20rem] xl:w-[40rem] items-center">
           <div className="grid grid-cols-3 gap-4 border-b-2 border-black px-4 font-poppins font-medium pb-3 mb-4 w-full">
             <div className='text-center col-span-1'>Date</div>
             <div className='text-center col-span-2'>Title</div>
