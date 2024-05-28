@@ -62,7 +62,7 @@ function ClubDashboard({})
 
   
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/getAnnouncements?ClubName=${clubData.Name}`, {
+    fetch(`${BACKEND_URL}/api/getAnnouncement?ClubName=${clubData.Name}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ function ClubDashboard({})
           <ClubFundsLogsTile clubFunds={clubFunds} updateFunds={handleFundsUpdate} fundAmount={parseInt(clubFunds)}/>
         </div>
         <div className="flex justify-between pb-10">
-          <AnnouncementsTile />
+          <AnnouncementsTile clubName={club_name}/>
           <EventsTile />
         </div>
       </div>
